@@ -1,0 +1,128 @@
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title Page</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .main-container {
+            margin-top: 50px;
+            margin-left:5%;
+            text-align: center;}
+        }
+    .fail{
+color:red;
+}
+.pass{
+color:black;
+}
+table{
+    margin: 0 auto;
+     margin-left:10%;
+     margin-right:25%;
+     border-collapse: collapse;
+    border: 10px solid black;}
+
+th,td,tr{  
+       text-align: center;
+    align-content: center;
+    width: 100px;
+      border: 1px solid black;
+     table-layout: auto;
+     border-collapse: collapse;
+     padding:100px;
+}
+</style>
+
+
+</head>
+
+<body>
+    <div class="container main-container">
+        <div class="studentmark-header">
+            <h2>
+                <font size="20" color="green">sslc exam result</h2>
+        </div>
+        <div>
+            <h3>
+                <font size="10" color="browen">marks</h3>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>English</th>
+                <th>Tamil</th>
+                <th>Maths</th>
+                <th>Science</th>
+                <th>Social</th>
+                <th>pass or fail</th>
+            </tr>
+        </thead>
+        <tbody class="studentmark-content"></tbody>
+    </table>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        (function () {
+            function populateStudentsmark() {
+                var markContent = document.getElementsByClassName("studentmark-content")[0];
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var markResponse = JSON.parse(this.responseText);
+                        var dynamicDom = "";
+                        var failFlag=0;
+                        
+                        for (var i = 0;
+                            i < markResponse.length;
+                            i++) {
+                            var name = markResponse[i].name;
+                            var mark = markResponse[i].mark;
+
+                            dynamicDom += "<tr>";
+                            dynamicDom += "<td>" + name + " </td>";
+                            for (var j = 0;
+                                j < mark.length;
+                                j++) {
+                                    if(mark[j]<40)
+                                    {
+                                        failFlag=1;
+                                dynamicDom += "<td class='fail'> " + mark[j] + " </td>";
+                                    }
+                                    else{
+                                        dynamicDom += "<td class='pass'> " + mark[j] + " </td>";
+                                    }
+                            }
+                            if (failFlag==1)
+                            {
+                           dynamicDom += "<td class='fail'>Fail</td>"
+                            }
+                            else
+                            {
+                               dynamicDom += "<td class='pass'>Pass</td>"
+                            }
+                            dynamicDom += "</tr>";
+                        }
+                        markContent.innerHTML = dynamicDom;
+                    }
+                }
+                    ;
+                xhttp.open("GET", "data/mark.json", true);
+                xhttp.send();
+            }
+            populateStudentsmark();
+        }
+
+        )();
+    </script>
+</body>
+
+</html>

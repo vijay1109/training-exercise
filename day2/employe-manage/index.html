@@ -1,0 +1,97 @@
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title Page</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .a {
+            font-family: 'Times New Roman';
+            font-size: 25px;
+            display: inline;
+            border-inline-start-color: rebeccapurple;
+        }
+
+        body {
+            background-image: url(http://cdn.wallpapersafari.com/37/53/ORLU5w.jpg);
+        }
+
+        .employee-header {
+            color: blue;
+            font-family: 'Arial Narrow Bold';
+        }
+
+        .panel {
+            background-color: aquamarine
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Employee Details</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container main-container">
+        <div class="employee-header" align="center">
+            <h2>Employee Management System</h2>
+            <h3>Employee Details</h3>
+        </div>
+    </div>
+    <div class="employee-content">
+
+    </div>
+
+
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        (function () {
+            function populateEmployeedetail() {
+                var empContent = document.getElementsByClassName("employee-content")[0];
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var employeeResponse = JSON.parse(this.responseText);
+                        var dynamicDom = "";
+                        dynamicDom = "<ul class='a'>";
+                        employeeResponse.forEach(function (item) {
+                            dynamicDom += "<div class='panel panel-default'>";
+                            dynamicDom += "<li>" + item.name + " </li>";
+                            dynamicDom += "<li>" + item.dob + " </li>";
+                            dynamicDom += "<li>" + item.address + " </li>";
+                            dynamicDom += "</div><br />";
+
+                        });
+                        dynamicDom += "</ul>";
+                         empContent.innerHTML = dynamicDom;
+                    };
+                   
+                    
+                };
+                xhttp.open("GET", "data/employe.json", true);
+                    xhttp.send();
+
+            };
+            populateEmployeedetail();
+        })();
+    </script>
+</body>
+
+</html>
